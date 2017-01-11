@@ -30,4 +30,4 @@ The script requires 2 tools:
   1. nmap - for host discovery  
   2. medusa - for password bruteforcing
 
-----------------------------------------------
+-----------------------------------------------
