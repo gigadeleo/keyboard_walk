@@ -2,13 +2,10 @@
 #
 # +-----------------------------------------------+
 # |               Keyboard_Walk.sh                |
-# +-----------------------------------------------+a
+# +-----------------------------------------------+
 # |       A simple SSH host discovery and a       |
 # |       pre-set password bruteforce tool.       |
 # +-----------------------------------------------+
-# |         version: 0.0.8 - Giannella D.         |
-# +-----------------------------------------------+
-#
 # 
 # -------------------------------------------------
 # COLOUR PRESETS 
@@ -26,17 +23,18 @@ if [[ $# -eq 0 ]] ; then
     echo -e "${YLW}WARNING: The script expects 3 arguments:${NC}"
 	echo -e "----------------------------------------------"
 	echo -e "     1: [File] Name of the subnet file in the same directory;"
-	echo -e "     2: [File] Name of the password file in the same directory;"
+	echo -e "     2: [File] Name of the username file in the same directory;"
+	echo -e "     3: [File] Name of the password file in the same directory;"
 	echo -e "     3: [Flag] 0 - to Force Re-scan of hosts; 1 - to use previously identified scan results."
 	echo -e ""
 	echo -e "Required Tools:"
 	echo -e "----------------------------------------------"
-	echo -e "     masscan"
-	echo -e "     Ncrack 0.5"
+	echo -e "     nmap"
+	echo -e "     medusa"
 	echo -e ""
 	echo -e "Usage Example:" 
 	echo -e "----------------------------------------------"
-	echo -e "     ./keyboard_walk subnet_file pass_file 0${NC}" 
+	echo -e "     ./keyboard_walk subnet_file uname_file pass_file 0${NC}" 
     exit 0
 fi
 #
@@ -45,14 +43,15 @@ fi
 # -------------------------------------------------
 #
 echo -e "${GRN}--[ Starting Keyboard Walk Script ]--${NC}"
-#a
+#
 # -------------------------------------------------
 # SETTING ARGUMENTS
 # -------------------------------------------------
 #
 subnet_file=$1
-pword_file=$2
-force_rescan=$3
+uname_file=$2
+pword_file=$3
+force_rescan=$4
 DATE_FORM=`date +"%Y-%m-%d"` #date in the format we want YYYY-mm-dd
 #
 # -------------------------------------------------
@@ -66,16 +65,25 @@ then
         echo "Required 'subnet' File: Found."
 else
         echo "Required 'subnet' File: Not Found. Aborting."
-	exit 1
+		exit 1
+fi
+#
+# Check Uname File
+if [ -f "$2" ]
+then
+        echo "Required 'uname' File: Found."
+else
+        echo "Required 'uname' File: Not Found. Aborting."
+		exit 1
 fi
 #
 # Check Password File
-if [ -f "$2" ]
+if [ -f "$3" ]
 then
         echo "Required 'password' File: Found."
 else
         echo "Required 'password' File: Not Found. Aborting."
-	exit 1
+		exit 1
 fi
 #
 # Check Re-Scan Flag
@@ -98,9 +106,13 @@ fi
 echo -e "${LRED}Total Subnets Identified${NC}"
 cat $1 | wc -l
 #
+# Count Uname
+echo -e "${LRED}Usernames to Test per host${NC}"
+cat $2 | wc -l
+#
 # Count Passwords
 echo -e "${LRED}Passwords to Test per host${NC}"
-cat $2 | wc -l
+cat $3 | wc -l
 #
 # -------------------------------------------------
 # START KEYBOARDWALK AUDIT
@@ -123,7 +135,7 @@ cat livehost_list | wc -l
 #
 # Start Crackin'
 echo -e "${GRN}--[ Running Keyboard Walk Exploit Tool (medusa) ]--${NC}"
-medusa -u root -P $2 -H livehost_list -M ssh -T10 -e ns -O log/scan.log
+medusa -U $2 -P $3 -H livehost_list -M ssh -T10 -e ns -O log/scan.log
 #
 # End Procedure
 echo -e "${GRN}--[ Ending Keyboard Walk Assessment Script ]--${NC}"
@@ -136,7 +148,7 @@ echo -e ""
 echo -e "----------------------------------------------"
 echo -e "${YLW}LAST SCAN RESULTS:${NC}"
 echo -e "----------------------------------------------"
-more +/$DATE_FORM log/scan.log
+more +/$DATE_FORM log/scan_log
 #
 # -------------------------------------------------
 # ALTERNATIVES / TESTING
