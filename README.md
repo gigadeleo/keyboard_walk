@@ -21,10 +21,10 @@ The script expects four (4) arguments:
   3. [FILE] password file
   4. [FLAG] Force Rescan Flag (0 to force host-discovery (longer); 1 to use previously identified hosts (quicker but less accurate)).
     
-  Usage Example:
-    ```sh
-    ./keyboard_walk.sh subnets unames pwords 0
-    ```
+Usage Example:
+  ```sh
+  ./keyboard_walk.sh subnets unames pwords 0
+  ```
 
 The script requires 2 tools:
   1. nmap - for host discovery  
