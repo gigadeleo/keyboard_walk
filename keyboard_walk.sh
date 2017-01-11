@@ -65,7 +65,7 @@ then
         echo "Required 'subnet' File: Found."
 else
         echo "Required 'subnet' File: Not Found. Aborting."
-		exit 1
+	exit 1
 fi
 #
 # Check Uname File
@@ -74,7 +74,7 @@ then
         echo "Required 'uname' File: Found."
 else
         echo "Required 'uname' File: Not Found. Aborting."
-		exit 1
+	exit 1
 fi
 #
 # Check Password File
@@ -83,7 +83,7 @@ then
         echo "Required 'password' File: Found."
 else
         echo "Required 'password' File: Not Found. Aborting."
-		exit 1
+	exit 1
 fi
 #
 # Check Re-Scan Flag
