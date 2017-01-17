@@ -148,7 +148,7 @@ echo -e ""
 echo -e "----------------------------------------------"
 echo -e "${YLW}LAST SCAN RESULTS:${NC}"
 echo -e "----------------------------------------------"
-more +/$DATE_FORM log/scan_log
+more +/$DATE_FORM log/scan.log
 #
 # -------------------------------------------------
 # ALTERNATIVES / TESTING
